@@ -57,6 +57,11 @@ list(APPEND shiboken_include_dirs
     ${tf2_msgs_INCLUDE_DIRS}
     ${pluginlib_INCLUDE_DIRS}
 )
+if(WIN32)
+  list(APPEND shiboken_include_dirs
+    ${console_bridge_INCLUDE_DIRS}
+  )
+endif()
 message(STATUS "ROS inlcude dirs: ${shiboken_include_dirs}")
 message(STATUS "QT5 inlcude dirs: ${Qt5Core_INCLUDE_DIRS} ${Qt5Widgets_INCLUDE_DIRS} ${Qt5Gui_INCLUDE_DIRS}")
 list(APPEND shiboken_include_dirs
@@ -64,6 +69,7 @@ list(APPEND shiboken_include_dirs
     $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/include>
     $<INSTALL_INTERFACE:include>
 )
+cmake_path(SET shiboken_include_dirs NORMALIZE "${shiboken_include_dirs}")
 
 add_library(rviz_python SHARED
   src/visualizer_frame_py.cpp
@@ -72,7 +78,9 @@ add_library(rviz_python SHARED
 target_include_directories(rviz_python PUBLIC
   $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/include>
   $<INSTALL_INTERFACE:include>)
-target_compile_options(rviz_python PUBLIC -Wl,--no-undefined)
+if(NOT WIN32)
+  target_compile_options(rviz_python PUBLIC -Wl,--no-undefined)
+endif()
 ament_target_dependencies(rviz_python
   rviz_common
   Qt5
