@@ -3,10 +3,15 @@
 using namespace rviz_common;
 
 VisualizerFramePy::VisualizerFramePy(QWidget * parent)
-: VisualizationFrame(parent)
+: VisualizationFrame(rviz_common::ros_integration::RosNodeAbstractionIface::WeakPtr(), parent)
 {
   ros_client_abstraction_ = std::make_unique<rviz_common::ros_integration::RosClientAbstraction>();
-  this->rviz_ros_node_ = ros_client_abstraction_->init(0, nullptr, "rviz", false);
+  rviz_ros_node_ = ros_client_abstraction_->init(0, nullptr, "rviz", false);
+}
+
+VisualizerFramePy::~VisualizerFramePy()
+{
+  ros_client_abstraction_->shutdown();
 }
 
 bool VisualizerFramePy::node_ok()

@@ -17,10 +17,7 @@ public:
   explicit VisualizerFramePy(
     QWidget * parent = nullptr);
 
-  ~VisualizerFramePy()
-  {
-    ros_client_abstraction_->shutdown();
-  }
+  ~VisualizerFramePy();
 
   bool node_ok();
 
