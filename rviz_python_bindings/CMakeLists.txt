@@ -47,10 +47,17 @@ set(shiboken_generated_sources
     ${CMAKE_CURRENT_BINARY_DIR}/${shiboken_bindings_library}/ogre_wrapper.cpp
 )
 
-ament_get_recursive_properties(deps_include_dirs _ ${rviz_common_TARGETS})
 list(APPEND shiboken_include_dirs
-    ${deps_include_dirs})
-message(STATUS "ROS inlcude dirs: ${deps_include_dirs}")
+    ${rviz_common_INCLUDE_DIRS}
+    ${rviz_rendering_INCLUDE_DIRS}
+    ${OGRE_INCLUDE_DIRS}
+    ${rcl_INCLUDE_DIRS}
+    ${rclcpp_INCLUDE_DIRS}
+    ${rmw_INCLUDE_DIRS}
+    ${tf2_msgs_INCLUDE_DIRS}
+    ${pluginlib_INCLUDE_DIRS}
+)
+message(STATUS "ROS inlcude dirs: ${shiboken_include_dirs}")
 message(STATUS "QT5 inlcude dirs: ${Qt5Core_INCLUDE_DIRS} ${Qt5Widgets_INCLUDE_DIRS} ${Qt5Gui_INCLUDE_DIRS}")
 list(APPEND shiboken_include_dirs
     ${Qt5Core_INCLUDE_DIRS} ${Qt5Widgets_INCLUDE_DIRS} ${Qt5Gui_INCLUDE_DIRS}
